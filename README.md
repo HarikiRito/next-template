@@ -1,36 +1,56 @@
-# Introduction
+# Next.js Template
 
-This is a NextJS project that utilizes Jotai as a state management library. It allows you to create a project structure
-based on features, which can separate your logic and UI. Doing so reduces the project's complexity and makes it more
-maintainable, as you can modify UI and logic separately without affecting each other. This pattern is inspired by the
-Angular framework, allowing you to create each feature as a module that encapsulates the logic and UI while benefiting
-from React and NextJS.
+A Next.js project with feature-based architecture, Valtio state management, and comprehensive developer tooling. This template promotes maintainability by separating logic and UI into modular features, inspired by Angular's module pattern while leveraging React and Next.js capabilities.
 
-## Core libraries
+## Prerequisites
 
-- [NextJS](https://nextjs.org/): A React framework that enables functionality such as server-side rendering and generating static websites for React-based web applications.
-- [Tailwind CSS](https://tailwindcss.com/): A utility-first CSS framework for rapidly building custom designs.
-- [Valtio](https://valtio.dev/docs/introduction/getting-started): A simple and fast state management library for React.
+- **Node.js** >= 24.0.0
+- **pnpm** >= 10.17.1
 
-## UI
-For UI library components, consider using headless UI components,
-such as [Radix](https://radix-ui.com/), [shadcn/ui](https://ui.shadcn.com/) since we are using Tailwind CSS.
+Install pnpm if needed:
+```bash
+npm install -g pnpm
+```
 
+## Quick Start
 
-## Read the docs
+```bash
+# Install dependencies
+pnpm install
 
-Make sure to read the docs first to understand the project structure and concepts.
+# Run development server
+pnpm dev
 
-- [Valtio State Management](./docs/Valtio.md)
-- [Storybook UI Library](./docs/Storybook.md)
+# Build for production
+pnpm build
 
-## Testing
+# Start production server
+pnpm start
+```
 
-This project uses [Vitest](https://vitest.dev/) for unit and integration testing. The tests are written using the [Testing Library](https://testing-library.com/) for React components.
+Open [http://localhost:3000](http://localhost:3000) to view the application.
 
-### Running Tests
+## Development
 
-To run the tests, use the following commands:
+### Code Quality
+
+```bash
+# Type checking
+pnpm type:check
+
+# Lint and format (Biome + ESLint)
+pnpm lint:fix
+
+# Run CI lint checks
+pnpm ci:lint
+```
+
+The project uses:
+- **Biome** for formatting and fast linting
+- **ESLint** for additional code quality rules
+- **TypeScript** strict mode for type safety
+
+### Testing
 
 ```bash
 # Run tests in watch mode
@@ -39,19 +59,47 @@ pnpm test
 # Run tests once
 pnpm test:run
 
-# Run tests with coverage report
+# Generate coverage report
 pnpm test:coverage
 ```
 
-### Coverage Reports
+Uses [Vitest](https://vitest.dev/) and [Testing Library](https://testing-library.com/). Coverage reports are generated in `coverage/index.html`.
 
-After running `pnpm test:coverage`, a coverage report will be generated in the `coverage` directory. You can view the HTML report by opening `coverage/index.html` in your browser.
+### Build
 
-The coverage configuration is set up in `vitest.config.mts` and includes:
+```bash
+# Production build
+pnpm build
 
-- Statement coverage threshold: 0% (disabled)
-- Branch coverage threshold: 0% (disabled)
-- Function coverage threshold: 0% (disabled)
-- Line coverage threshold: 0% (disabled)
+# Analyze build output
+pnpm start
+```
 
-These thresholds are currently set to 0% to allow for gradual improvement of test coverage. As the project matures, these thresholds should be increased to ensure the codebase maintains a high level of test coverage (recommended: 80% or higher).
+Next.js optimizes the build with automatic code splitting, tree shaking, and minification.
+
+## Architecture
+
+Feature-based structure where each module encapsulates related logic and UI components. This approach reduces complexity and enables independent modification of features. See [Valtio State Management](./docs/Valtio.md) for state management patterns.
+
+## Tech Stack
+
+### Core
+- [Next.js](https://nextjs.org/) - React framework with SSR and static generation
+- [React 19](https://react.dev/) - UI library
+- [Valtio](https://valtio.dev/) - Proxy-based state management
+- [TypeScript](https://www.typescriptlang.org/) - Type safety
+
+### UI
+- [Tailwind CSS](https://tailwindcss.com/) - Utility-first styling
+- [Radix UI](https://radix-ui.com/) - Headless component primitives
+- [Lucide React](https://lucide.dev/) - Icon library
+
+### Data & Forms
+- [TanStack Query](https://tanstack.com/query) - Server state management
+- [React Hook Form](https://react-hook-form.com/) - Form handling
+- [Zod](https://zod.dev/) - Schema validation
+
+### Developer Tools
+- [Biome](https://biomejs.dev/) - Fast formatter and linter
+- [Vitest](https://vitest.dev/) - Unit testing
+- [ESLint](https://eslint.org/) - Code quality
