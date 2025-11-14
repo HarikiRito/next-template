@@ -4,6 +4,7 @@ import nextPlugin from '@next/eslint-plugin-next';
 // @ts-expect-error - no types available
 import biome from 'eslint-config-biome';
 import perfectionist from 'eslint-plugin-perfectionist';
+import reactHooks from 'eslint-plugin-react-hooks';
 import reactYouMightNotNeedAnEffect from 'eslint-plugin-react-you-might-not-need-an-effect';
 import tseslint from 'typescript-eslint';
 
@@ -37,10 +38,12 @@ export default [
 	{
 		plugins: {
 			'@next/next': nextPlugin,
+			'react-hooks': reactHooks,
 		},
 		rules: {
 			...nextPlugin.configs.recommended.rules,
 			...nextPlugin.configs['core-web-vitals'].rules,
+			...reactHooks.configs.recommended.rules,
 		},
 	},
 	{
@@ -96,6 +99,7 @@ export default [
 
 			'prefer-const': 'error',
 			'prefer-template': 'error',
+			'react-hooks/incompatible-library': 'warn'
 		},
 	},
 	{
