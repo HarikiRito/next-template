@@ -9,7 +9,7 @@
 - Do not nested function more than 3 levels. If you need more, consider refactoring the code to split the logic into multiple functions. This includes `if, else, for, while` .etc.
 
 ## Folder Structure
-- Each page should have it own folder in the `(pages)` directory. If the component is used in multiple pages, consider creating a shared component in the `(shared/components)` directory.
+- Each page should have it own folder in the `(app)` directory. If the component is used in multiple pages, consider creating a shared component in the `(components)` directory.
 
 
 ## PR (Pull Request) Guidelines
