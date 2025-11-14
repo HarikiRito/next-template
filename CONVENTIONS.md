@@ -36,7 +36,16 @@ use
 ```ts
 function handleClick() { ... }
 ```
-- Avoid using 
+- Always use `cn` function for conditional class names instead of template strings in className. For example, instead of:
+```tsx
+<div className={`base-class ${condition ? 'active' : ''}`} />
+```
+
+use:
+
+```tsx
+<div className={cn('base-class', condition && 'active')} />
+```
 
 ## Name Convention
 - Enum, Enum value should be in PascalCase.
