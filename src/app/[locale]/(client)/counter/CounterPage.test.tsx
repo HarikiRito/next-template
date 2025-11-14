@@ -1,16 +1,8 @@
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import { describe, expect, it, vi } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { CounterPage } from './CounterPage';
-
-// Mock the child components
-vi.mock('./components/Counter', () => ({
-  Counter: () => <div data-testid='mock-counter'>Mock Counter</div>,
-}));
-
-vi.mock('./components/CounterController', () => ({
-  CounterController: () => <div data-testid='mock-counter-controller'>Mock Counter Controller</div>,
-}));
+import { externalCounterStore } from './state';
 
 // Mock the useRouter hook
 vi.mock('next/navigation', () => ({
@@ -34,13 +26,27 @@ vi.mock('src/services/api/mutations/useExampleTodo.mutation', () => ({
 }));
 
 describe('CounterPage', () => {
-  it('should render the counter components', () => {
+  beforeEach(() => {
+    // Reset external store before each test
+    externalCounterStore.reset();
+  });
+
+  it('should render both external and global counter sections', () => {
     render(<CounterPage />);
 
-    expect(screen.getByTestId('mock-counter')).toBeInTheDocument();
-    expect(screen.getByTestId('mock-counter-controller')).toBeInTheDocument();
+    expect(screen.getByText('External Counter (Resets on Navigation)')).toBeInTheDocument();
+    expect(screen.getByText('Global Counter (Persists Across Navigation)')).toBeInTheDocument();
     expect(screen.getByText('Navigate to homepage')).toBeInTheDocument();
-    expect(screen.getByText(/This counter is global/i)).toBeInTheDocument();
     expect(screen.getByText(/TODO example/i)).toBeInTheDocument();
+  });
+
+  it('should display external counter with initial count of 0', () => {
+    render(<CounterPage />);
+    expect(screen.getAllByText(/Count: 0/)[0]).toBeInTheDocument();
+  });
+
+  it('should display global counter with current count', () => {
+    render(<CounterPage />);
+    expect(screen.getAllByText(/Count: 0/)).toHaveLength(2); // Both counters start at 0
   });
 });

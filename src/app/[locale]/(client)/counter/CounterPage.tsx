@@ -1,40 +1,81 @@
 'use client';
 import { useRouter } from 'next/navigation';
-import { createContext } from 'react';
-import { Counter } from 'src/app/[locale]/(client)/counter/components/Counter';
-import { CounterController } from 'src/app/[locale]/(client)/counter/components/CounterController';
 import { AppButton } from 'src/components/ui/button/AppButton';
-import { useConstant } from 'src/hooks/useConstant';
 import { useExampleTodoMutation } from 'src/services/api/mutations/useExampleTodo.mutation';
 import { useExampleTodosQuery } from 'src/services/api/queries/useExampleTodo.query';
-import { CounterState, counterStore } from 'src/stores/counter.store';
-import { proxy, useSnapshot } from 'valtio';
+import { counterStore } from 'src/stores/counter.store';
+import { externalCounterStore } from './state';
+import { useSnapshot } from 'valtio';
 
-export const StateContext = createContext<CounterState>({} as CounterState);
 /**
  * Read more at the docs/Valtio.md file for more information on when to use Valtio for each usecase
- * @returns
+ *
+ * This page demonstrates two Valtio patterns:
+ * 1. External Store with Reset - Page-scoped state that resets on unmount
+ * 2. Global Store - App-wide state that persists across navigation
  */
-export const CounterPage = () => {
+export function CounterPage() {
+  // Reset external store on unmount
+  externalCounterStore.useResetHook();
+
   const router = useRouter();
-  const state = useConstant(() => proxy(new CounterState()));
 
   return (
-    <StateContext.Provider value={state}>
-      <Counter />
-      <CounterController />
+    <div>
+      <ExternalCounter />
+      <ExternalCounterController />
       <GlobalCounter />
+      <GlobalCounterController />
       <AppButton onClick={() => router.push('/')} className='mt-3'>
         Navigate to homepage
       </AppButton>
       <ExampleTodo />
-    </StateContext.Provider>
+    </div>
   );
-};
+}
+
+function ExternalCounter() {
+  const snapshot = externalCounterStore.useStateSnapshot();
+  return (
+    <div>
+      <h2 className='text-lg font-semibold'>External Counter (Resets on Navigation)</h2>
+      <p className='text-sm text-gray-600'>This counter uses an external store with reset functionality</p>
+      <p className='text-xl font-bold mt-2'>Count: {snapshot.count}</p>
+    </div>
+  );
+}
+
+function ExternalCounterController() {
+  const state = externalCounterStore.proxyState;
+  return (
+    <div className='mt-3 mb-8 flex gap-4'>
+      <AppButton onClick={() => state.increment()}>Increment External</AppButton>
+      <AppButton onClick={() => state.decrement()}>Decrement External</AppButton>
+      <AppButton onClick={() => externalCounterStore.reset()} variant='outline'>
+        Reset External
+      </AppButton>
+    </div>
+  );
+}
 
 function GlobalCounter() {
   const state = useSnapshot(counterStore);
-  return <div>This counter is global and will not be reset on client-side navigation: {state.count}</div>;
+  return (
+    <div className='mt-5'>
+      <h2 className='text-lg font-semibold'>Global Counter (Persists Across Navigation)</h2>
+      <p className='text-sm text-gray-600'>This counter uses a simple global proxy store</p>
+      <p className='text-xl font-bold mt-2'>Count: {state.count}</p>
+    </div>
+  );
+}
+
+function GlobalCounterController() {
+  return (
+    <div className='mt-3 mb-3 flex gap-4'>
+      <AppButton onClick={() => counterStore.increment()}>Increment Global</AppButton>
+      <AppButton onClick={() => counterStore.decrement()}>Decrement Global</AppButton>
+    </div>
+  );
 }
 
 function ExampleTodo() {
