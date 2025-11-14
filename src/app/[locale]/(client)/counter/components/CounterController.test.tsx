@@ -3,20 +3,20 @@ import '@testing-library/jest-dom';
 import { describe, expect, it, vi } from 'vitest';
 import { CounterController } from './CounterController';
 import { StateContext } from '../CounterPage';
-import { CounterState } from 'src/shared/stores/counter.store';
+import { CounterState } from 'src/stores/counter.store';
 
 // Mock useRerenderCount to avoid console logs during tests
-vi.mock('src/shared/hooks/useRerenderCount', () => ({
+vi.mock('src/hooks/useRerenderCount', () => ({
   useRerenderCount: vi.fn(),
 }));
 
 // Mock the counter store to prevent global state changes
-vi.mock('src/shared/stores/counter.store', () => {
-  const CounterState = vi.fn().mockImplementation(() => ({
-    count: 0,
-    increment: vi.fn(),
-    decrement: vi.fn(),
-  }));
+vi.mock('src/stores/counter.store', () => {
+  class CounterState {
+    count = 0;
+    increment = vi.fn();
+    decrement = vi.fn();
+  }
 
   return {
     CounterState,

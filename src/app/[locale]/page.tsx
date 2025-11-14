@@ -1,11 +1,11 @@
 'use client';
 
 import Link from 'next/link';
-import { LanguageSwitcher } from 'src/shared/components/i18n/LanguageSwitcher';
-import { LocaleLink } from 'src/shared/components/i18n/LocaleLink';
-import { buttonVariants } from 'src/shared/components/ui/button/AppButton';
-import { useTranslation } from 'src/shared/hooks/useTranslation';
-import { cn } from 'src/shared/utils/className';
+import { LanguageSwitcher } from 'src/components/i18n/LanguageSwitcher';
+import { LocaleLink } from 'src/components/i18n/LocaleLink';
+import { buttonVariants } from 'src/components/ui/button/AppButton';
+import { useTranslation } from 'src/hooks/useTranslation';
+import { cn } from 'src/utils/className';
 export default function HomePage() {
   const { t, locale } = useTranslation();
 

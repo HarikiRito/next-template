@@ -1,9 +1,9 @@
 'use client';
 import { useContext } from 'react';
 import { StateContext } from 'src/app/[locale]/(client)/counter/CounterPage';
-import { AppButton } from 'src/shared/components/ui/button/AppButton';
-import { useRerenderCount } from 'src/shared/hooks/useRerenderCount';
-import { counterStore } from 'src/shared/stores/counter.store';
+import { AppButton } from 'src/components/ui/button/AppButton';
+import { useRerenderCount } from 'src/hooks/useRerenderCount';
+import { counterStore } from 'src/stores/counter.store';
 
 export const CounterController = () => {
   const state = useContext(StateContext);

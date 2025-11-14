@@ -1,7 +1,7 @@
 'use client';
 import { useContext } from 'react';
 import { StateContext } from 'src/app/[locale]/(client)/counter/CounterPage';
-import { useRerenderCount } from 'src/shared/hooks/useRerenderCount';
+import { useRerenderCount } from 'src/hooks/useRerenderCount';
 import { useSnapshot } from 'valtio';
 
 export const Counter = () => {

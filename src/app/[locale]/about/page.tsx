@@ -1,6 +1,6 @@
 import Link from 'next/link';
-import { LanguageSwitcher } from 'src/shared/components/i18n/LanguageSwitcher';
-import { getServerTranslation } from 'src/shared/i18n/i18nServer';
+import { LanguageSwitcher } from 'src/components/i18n/LanguageSwitcher';
+import { getServerTranslation } from 'src/i18n/i18nServer';
 
 export default async function AboutPage({ params }: { readonly params: Promise<{ locale: string }> }) {
   const { locale } = await params;

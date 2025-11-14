@@ -3,11 +3,11 @@ import { useRouter } from 'next/navigation';
 import { createContext } from 'react';
 import { Counter } from 'src/app/[locale]/(client)/counter/components/Counter';
 import { CounterController } from 'src/app/[locale]/(client)/counter/components/CounterController';
-import { AppButton } from 'src/shared/components/ui/button/AppButton';
-import { useConstant } from 'src/shared/hooks/useConstant';
-import { useExampleTodoMutation } from 'src/shared/services/api/mutations/useExampleTodo.mutation';
-import { useExampleTodosQuery } from 'src/shared/services/api/queries/useExampleTodo.query';
-import { CounterState, counterStore } from 'src/shared/stores/counter.store';
+import { AppButton } from 'src/components/ui/button/AppButton';
+import { useConstant } from 'src/hooks/useConstant';
+import { useExampleTodoMutation } from 'src/services/api/mutations/useExampleTodo.mutation';
+import { useExampleTodosQuery } from 'src/services/api/queries/useExampleTodo.query';
+import { CounterState, counterStore } from 'src/stores/counter.store';
 import { proxy, useSnapshot } from 'valtio';
 
 export const StateContext = createContext<CounterState>({} as CounterState);

@@ -20,16 +20,16 @@ vi.mock('next/navigation', () => ({
 }));
 
 // Mock the useRerenderCount hook
-vi.mock('src/shared/hooks/useRerenderCount', () => ({
+vi.mock('src/hooks/useRerenderCount', () => ({
   useRerenderCount: vi.fn(),
 }));
 
 // Mock tanstack query hooks
-vi.mock('src/shared/services/api/queries/useExampleTodo.query', () => ({
+vi.mock('src/services/api/queries/useExampleTodo.query', () => ({
   useExampleTodosQuery: () => ({ data: [] }),
 }));
 
-vi.mock('src/shared/services/api/mutations/useExampleTodo.mutation', () => ({
+vi.mock('src/services/api/mutations/useExampleTodo.mutation', () => ({
   useExampleTodoMutation: () => ({ mutate: vi.fn(), data: null }),
 }));
 

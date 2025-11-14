@@ -112,9 +112,9 @@ import { useRouter } from 'next/navigation';
 import { createContext } from 'react';
 import { Counter } from 'src/app/(pages)/counter/components/Counter';
 import { CounterController } from 'src/app/(pages)/counter/components/CounterController';
-import { AppButton } from 'src/shared/components/ui/button/AppButton';
-import { useConstant } from 'src/shared/hooks/useConstant';
-import { CounterState, counterStore } from 'src/shared/store/counter.store';
+import { AppButton } from 'src/components/ui/button/AppButton';
+import { useConstant } from 'src/hooks/useConstant';
+import { CounterState, counterStore } from 'src/store/counter.store';
 import { proxy, useSnapshot } from 'valtio';
 
 export const StateContext = createContext<CounterState>({} as CounterState);

@@ -4,8 +4,8 @@ import { Inter } from 'next/font/google';
 import React from 'react';
 
 // Import global styles
-import { clientEnvironment } from 'src/shared/environments/client';
-import { I18nProviderClient } from 'src/shared/providers/I18nProvider';
+import { clientEnvironment } from 'src/environments/client';
+import { I18nProviderClient } from 'src/providers/I18nProvider';
 import '../globals.css';
 const inter = Inter({ subsets: ['latin'] });
 

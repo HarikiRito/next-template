@@ -3,11 +3,11 @@ import '@testing-library/jest-dom';
 import { describe, expect, it, vi } from 'vitest';
 import { Counter } from './Counter';
 import { StateContext } from '../CounterPage';
-import { CounterState } from 'src/shared/stores/counter.store';
+import { CounterState } from 'src/stores/counter.store';
 import { proxy } from 'valtio';
 
 // Mock useRerenderCount to avoid console logs during tests
-vi.mock('src/shared/hooks/useRerenderCount', () => ({
+vi.mock('src/hooks/useRerenderCount', () => ({
   useRerenderCount: vi.fn(),
 }));
 
