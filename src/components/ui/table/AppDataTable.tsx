@@ -46,6 +46,7 @@ function DataTable<TData>({
   const [pageSize, setPageSize] = useState(5)
   const [pageIndex, setPageIndex] = useState(0)
 
+  // eslint-disable-next-line react-hooks/incompatible-library
   const table = useReactTable({
     columns,
     data,
