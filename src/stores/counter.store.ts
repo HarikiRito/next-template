@@ -1,15 +1,15 @@
-import { proxy } from 'valtio';
+import { proxy } from 'valtio'
 
 export class CounterState {
-  count = 0;
+  count = 0
 
   decrement() {
-    this.count--;
+    this.count--
   }
 
   increment() {
-    this.count++;
+    this.count++
   }
 }
 
-export const counterStore = proxy(new CounterState());
+export const counterStore = proxy(new CounterState())

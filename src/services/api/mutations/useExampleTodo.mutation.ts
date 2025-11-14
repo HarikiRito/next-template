@@ -1,4 +1,5 @@
-import { generateUseMutationHook } from 'src/utils/reactQuery';
-import { ExampleService } from '../example.service';
+import { generateUseMutationHook } from 'src/utils/reactQuery'
 
-export const useExampleTodoMutation = generateUseMutationHook(ExampleService.updateTodo);
+import { ExampleService } from '../example.service'
+
+export const useExampleTodoMutation = generateUseMutationHook(ExampleService.updateTodo)

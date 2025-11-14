@@ -1,16 +1,16 @@
-import { createProxyWithReset } from 'src/utils/valtio';
+import { createProxyWithReset } from 'src/utils/valtio'
 
 export class CounterState {
-  count = 0;
+  count = 0
 
   decrement() {
-    this.count--;
+    this.count--
   }
 
   increment() {
-    this.count++;
+    this.count++
   }
 }
 
-export const externalCounterStore = createProxyWithReset(new CounterState());
-export const externalCounterState = externalCounterStore.proxyState;
+export const externalCounterStore = createProxyWithReset(new CounterState())
+export const externalCounterState = externalCounterStore.proxyState

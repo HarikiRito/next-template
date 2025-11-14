@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useRef } from 'react'
 
 /**
  * Returns a constant value that is only created once.
@@ -6,6 +6,6 @@ import { useRef } from 'react';
  * @returns The constant value.
  */
 export function useConstant<T>(value: () => T) {
-  const ref = useRef(value);
-  return ref.current();
+  const ref = useRef(value)
+  return ref.current()
 }

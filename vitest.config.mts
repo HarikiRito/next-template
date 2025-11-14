@@ -1,18 +1,11 @@
-import { defineConfig } from 'vitest/config';
-import react from '@vitejs/plugin-react';
-import tsconfigPaths from 'vite-tsconfig-paths';
+import react from '@vitejs/plugin-react'
+import tsconfigPaths from 'vite-tsconfig-paths'
+import { defineConfig } from 'vitest/config'
 
 export default defineConfig({
   plugins: [tsconfigPaths(), react()],
   test: {
-    environment: 'jsdom',
-    include: ['**/*.test.ts', '**/*.test.tsx', 'src/**/*.test.ts', 'src/**/*.test.tsx'],
-    globals: true,
-    setupFiles: ['./src/test-setup.ts'],
     coverage: {
-      provider: 'v8',
-      reporter: ['text', 'json', 'html'],
-      include: ['src/**/*.ts', 'src/**/*.tsx'],
       exclude: [
         'src/**/*.test.ts',
         'src/**/*.test.tsx',
@@ -21,13 +14,20 @@ export default defineConfig({
         'src/**/*.stories.ts',
         'src/**/*.d.ts',
       ],
+      include: ['src/**/*.ts', 'src/**/*.tsx'],
+      provider: 'v8',
+      reporter: ['text', 'json', 'html'],
+      reportsDirectory: './coverage',
       thresholds: {
-        statements: 0,
         branches: 0,
         functions: 0,
         lines: 0,
+        statements: 0,
       },
-      reportsDirectory: './coverage',
     },
+    environment: 'jsdom',
+    globals: true,
+    include: ['**/*.test.ts', '**/*.test.tsx', 'src/**/*.test.ts', 'src/**/*.test.tsx'],
+    setupFiles: ['./src/test-setup.ts'],
   },
-});
+})
