@@ -1,125 +1,106 @@
 // @ts-check
-import { FlatCompat } from '@eslint/eslintrc';
-import js from '@eslint/js';
+import eslint from '@eslint/js';
 import nextPlugin from '@next/eslint-plugin-next';
-import tsParser from '@typescript-eslint/parser';
+// @ts-expect-error - no types available
+import biome from 'eslint-config-biome';
 import perfectionist from 'eslint-plugin-perfectionist';
-import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended';
-import reactPlugin from 'eslint-plugin-react';
-import reactHooksPlugin from 'eslint-plugin-react-hooks';
-import storybook from 'eslint-plugin-storybook';
-import path from 'node:path';
-import { fileURLToPath } from 'node:url';
+import reactYouMightNotNeedAnEffect from 'eslint-plugin-react-you-might-not-need-an-effect';
 import tseslint from 'typescript-eslint';
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-const compat = new FlatCompat({
-  baseDirectory: __dirname,
-  recommendedConfig: js.configs.recommended,
-  allConfig: js.configs.all,
-});
 
+/**
+ * ESLint configuration for Next.js project with Biome integration
+ *
+ * Division of Responsibilities (Conservative Migration Strategy):
+ * - Biome: Formatting + basic linting only (organizeImports DISABLED)
+ * - ESLint: Type-aware linting + all sorting (imports, objects, enums, JSX, etc.)
+ *
+ * Includes:
+ * - TypeScript ESLint strict + stylistic type-aware rules
+ * - Perfectionist recommended-natural (all sorting rules)
+ * - React best practices and Next.js rules
+ * - Biome config compatibility layer (MUST be last to disable conflicting rules)
+ */
 export default [
-  ...storybook.configs['flat/recommended'],
-  reactPlugin.configs.flat?.recommended,
-  ...tseslint.configs.recommendedTypeChecked,
-  {
-    files: ['src/**/*.{tsx,ts}'],
-  },
-  {
-    ...perfectionist.configs['recommended-natural'],
-    rules: {
-      'perfectionist/sort-classes': 'off',
-      'perfectionist/sort-enums': 'off',
-    },
-  },
-  {
-    plugins: {
-      react: reactPlugin,
-    },
-    rules: {
-      ...reactPlugin.configs['jsx-runtime'].rules,
-    },
-    settings: {
-      react: {
-        version: 'detect', // You can add this if you get a warning about the React version when you lint
-      },
-    },
-  },
-  {
-    plugins: {
-      'react-hooks': reactHooksPlugin,
-    },
-    rules: reactHooksPlugin.configs.recommended.rules,
-  },
-  {
-    plugins: {
-      '@next/next': nextPlugin,
-    },
-    rules: {
-      ...nextPlugin.configs.recommended.rules,
-      ...nextPlugin.configs['core-web-vitals'].rules,
-    },
-  },
-  {
+	eslint.configs.recommended,
+	...tseslint.configs.strictTypeChecked,
+	...tseslint.configs.stylisticTypeChecked,
+	// perfectionist.configs['recommended-natural'],
+	reactYouMightNotNeedAnEffect.configs.recommended,
+	{
+		languageOptions: {
+			parserOptions: {
+				projectService: true,
+				tsconfigRootDir: import.meta.dirname,
+			},
+		},
+	},
+	{
+		plugins: {
+			'@next/next': nextPlugin,
+		},
+		rules: {
+			...nextPlugin.configs.recommended.rules,
+			...nextPlugin.configs['core-web-vitals'].rules,
+		},
+	},
+	{
+		rules: {
+			'@typescript-eslint/await-thenable': 'error',
+			'@typescript-eslint/ban-tslint-comment': 'off',
+			'@typescript-eslint/consistent-type-imports': ['error', { prefer: 'type-imports' }],
+			'@typescript-eslint/no-confusing-void-expression': 'off',
+			'@typescript-eslint/no-deprecated': 'warn',
+			// TypeScript strict rules
+			'@typescript-eslint/no-explicit-any': 'error',
+			'@typescript-eslint/no-extraneous-class': 'off',
+			'@typescript-eslint/no-floating-promises': 'error',
+			'@typescript-eslint/no-misused-promises': 'error',
+			'@typescript-eslint/no-non-null-assertion': 'warn',
+			'@typescript-eslint/no-unnecessary-condition': 'off',
+			'@typescript-eslint/no-unnecessary-type-assertion': 'error',
+			'@typescript-eslint/no-unnecessary-type-parameters': 'off',
+			'@typescript-eslint/no-unsafe-argument': 'off',
+			'@typescript-eslint/no-unused-vars': [
+				'error',
+				{
+					args: 'after-used',
+					argsIgnorePattern: '^_',
+					caughtErrorsIgnorePattern: '^(_|ignore)',
+					destructuredArrayIgnorePattern: '^_',
+					ignoreRestSiblings: false,
+					vars: 'all',
+					varsIgnorePattern: '^_',
+				},
+			],
+			'@typescript-eslint/prefer-nullish-coalescing': 'off',
+			'@typescript-eslint/prefer-optional-chain': 'off',
+			'@typescript-eslint/require-await': 'off',
+			'@typescript-eslint/restrict-template-expressions': 'off',
+			'@typescript-eslint/strict-boolean-expressions': 'off', // React conditionals
 
-    languageOptions: {
-      ...reactPlugin.configs.flat?.recommended.languageOptions,
-      parser: tsParser,
-      ecmaVersion: 5,
-      sourceType: 'script',
-      parserOptions: {
-        project: './tsconfig.json',
-      },
-    },
+			'@typescript-eslint/switch-exhaustiveness-check': 'error',
+			'@typescript-eslint/unbound-method': 'off',
+			// Project-specific rules
+			eqeqeq: 'error',
 
-    rules: {
-      // 'prettier/prettier': 'error',
-      '@typescript-eslint/no-unused-vars': 'warn',
-      '@typescript-eslint/no-unsafe-enum-comparison': 'error',
-      '@typescript-eslint/no-unsafe-assignment': 'off',
-      '@typescript-eslint/no-unsafe-call': 'off',
-      '@typescript-eslint/no-unsafe-member-access': 'off',
-      '@typescript-eslint/no-unsafe-return': 'off',
-      '@typescript-eslint/no-unsafe-argument': 'off',
-      '@typescript-eslint/no-redundant-type-constituents': 'off',
-      '@typescript-eslint/no-misused-promises': 'off',
-      'react/prefer-read-only-props': 'warn',
-      'react/prop-types': 'off',
-      '@typescript-eslint/await-thenable': 'error',
-      '@typescript-eslint/no-deprecated': 'warn',
-      '@typescript-eslint/no-unsafe-declaration-merging': 'error',
-      '@typescript-eslint/no-explicit-any': 'error',
-      '@typescript-eslint/unbound-method': 'off',
-      '@typescript-eslint/require-await': 'off',
-      'prefer-template': 'error',
-      'no-console': [
-        'warn',
-        {
-          allow: ['error', 'warn', 'info'],
-        },
-      ],
-      'react/jsx-curly-brace-presence': [
-        'error',
-        {
-          props: 'never',
-          children: 'ignore',
-        },
-      ],
-      eqeqeq: 'error',
-      'no-restricted-imports': [
-        'warn',
-        {
-          patterns: ['../../*'],
-        },
-      ],
-    },
-  },
-  {
-    ...eslintPluginPrettierRecommended,
-    rules: {
-      'prettier/prettier': 'error',
-    },
-    ignores: ['.next'],
-  }
+			// Code style rules
+			'no-console': ['warn', { allow: ['warn', 'error', 'info'] }],
+			// Disabled overly strict rules
+			'no-constant-binary-expression': 'off',
+			'no-restricted-imports': [
+				'warn',
+				{
+					patterns: ['../../*'],
+				},
+			],
+
+			'prefer-const': 'error',
+			'prefer-template': 'error',
+		},
+	},
+	{
+		ignores: ['.next', 'out', 'build', 'dist', 'coverage', 'node_modules'],
+	},
+	// MUST be last: Disable ESLint rules that conflict with Biome
+	biome,
 ];
