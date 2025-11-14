@@ -76,7 +76,7 @@ install:
 # CMS Jobs
 # ============================================
 
-cms:lint:
+lint:
   stage: lint
   tags:
     - coding_standards
@@ -92,43 +92,7 @@ cms:lint:
   # Only run on merge requests to main
   rules:
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "main"'
-      changes:
-        # Trigger when CMS files change
-        - app/cms/**/*
-        # Trigger when shared packages change
-        - packages/**/*
-        # Trigger when workspace config changes
-        - pnpm-lock.yaml
-        - pnpm-workspace.yaml
-        - .gitlab-ci.yml
 
   script:
     - pnpm install --frozen-lockfile
-    - echo "📦 Building shared package..."
-    - pnpm build:shared
-    - cd app/cms
     - pnpm ci:lint
-    - echo "✅ CMS lint checks passed!"
-
-# ============================================
-# Auto-Tagging Job
-# ============================================
-
-tag:create:
-  stage: tag
-  tags:
-    - coding_standards
-
-  # Only run on push to main branch (after merge) when package.json changes
-  rules:
-    - when: never
-    # - if: '$CI_COMMIT_BRANCH == "main" && $CI_COMMIT_MESSAGE =~ /^Merge/'
-    #   changes:
-    #     - package.json
-
-  before_script:
-    - apk add --no-cache git
-
-  script:
-    - chmod +x scripts/create-tag.sh
-    - ./scripts/create-tag.sh
